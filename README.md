@@ -1,152 +1,279 @@
-# Prepmate - Resume Builder
+# 🚀 PrepMate - Interview Preparation Platform
 
-A comprehensive MERN stack application for building professional resumes with multiple templates and PDF export functionality.
+PrepMate is a comprehensive MERN Stack-based Interview Preparation Platform designed to help students and job seekers prepare for placements and technical interviews effectively.
 
-## Features
+The platform provides study materials, aptitude and technical quizzes, interview experience sharing, resume building, career guidance resources, and progress tracking in a single application.
 
-### Resume Builder
-- **Multiple Professional Templates**: Choose from 4 different resume designs
-  - Professional: Clean and modern design suitable for corporate positions
-  - Creative: Colorful and creative design for creative industries
-  - Minimal: Simple and minimal design focusing on content
-  - Technical: Technical-focused design for IT and engineering roles
+---
 
-- **Comprehensive Form Sections**:
-  - Personal Information (Name, Email, Phone, LinkedIn)
-  - Education (Degree, Institution, Year, GPA)
-  - Work Experience (Title, Company, Duration, Description)
-  - Skills (Categorized skill groups)
-  - Projects (Title, Description, Technologies, Links)
-  - Certifications
+## 📌 Key Features
 
-- **Real-time Preview**: Preview your resume as you build it
-- **Template Switching**: Change templates on the fly to see different designs
-- **Auto-save**: Automatically saves your progress to MongoDB
+### 👤 User Features
 
-### Resume Preview & Export
-- **Live Preview**: See your resume in the selected template format
-- **Template Selection**: Switch between different templates in preview mode
-- **PDF Download**: Generate high-quality PDF versions of your resume
-- **Print Support**: Print-friendly templates with proper formatting
-- **Multiple Formats**: Download the same resume in different template styles
+- Secure User Registration and Login using JWT Authentication
+- Personalized User Dashboard
+- Resume Builder with PDF Download Support
+- Interview Question Bank
+- Online Quiz and Assessment System
+- Study Materials Access and Download
+- Interview Experience Sharing
+- Career Tips and Learning Resources
+- Progress Tracking and Performance Monitoring
+- User Profile Management
 
-### Admin Features
-- **User Management**: Manage user accounts and permissions
-- **Content Approval**: Review and approve user-submitted experiences
-- **Template Management**: Upload and manage resume templates
-- **Analytics Dashboard**: View usage statistics and user engagement
+---
 
-## Technology Stack
+### 🛠️ Admin Features
 
-### Backend
-- **Node.js** with Express.js
-- **MongoDB** with Mongoose ODM
-- **JWT Authentication**
-- **RESTful API Architecture**
+- Admin Dashboard
+- User Management
+- Quiz Management
+- Study Material Upload and Management
+- Tips and Resources Management
+- Interview Experience Approval System
+- Analytics and Platform Monitoring
+
+---
+
+## 🎯 Project Modules
+
+### Authentication Module
+- User Registration
+- User Login
+- JWT-Based Authentication
+- Protected Routes
+
+### Resume Builder Module
+- Professional Resume Creation
+- Multiple Resume Sections
+- PDF Export Functionality
+
+### Quiz Module
+- Aptitude and Technical Quizzes
+- Score Calculation
+- Performance Evaluation
+- Progress Tracking
+
+### Study Material Module
+- Learning Resource Management
+- Material Upload and Download
+- Categorized Study Content
+
+### Experience Sharing Module
+- Share Interview Experiences
+- Experience Approval Workflow
+- Community Learning Support
+
+### Career Resources Module
+- Interview Preparation Tips
+- Career Guidance Content
+- Learning Resources
+
+---
+
+## 💻 Technology Stack
 
 ### Frontend
-- **React 19** with modern hooks
-- **Responsive Design** with CSS Grid and Flexbox
-- **PDF Generation** using jsPDF and html2canvas
-- **Real-time Updates** with Axios HTTP client
+- React.js
+- React Router DOM
+- Axios
+- HTML5
+- CSS3
+- JavaScript (ES6+)
 
-## Installation & Setup
+### Backend
+- Node.js
+- Express.js
+- REST API Architecture
+- JWT Authentication
+
+### Database
+- MongoDB
+- Mongoose ODM
+
+### Additional Libraries
+- jsPDF
+- html2canvas
+
+---
+
+
+
+## ⚙️ Installation and Setup
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB (local or Atlas)
-- npm or yarn package manager
+
+- Node.js (v16 or above)
+- MongoDB Atlas or Local MongoDB
+- npm
+
+---
+
+### Clone Repository
+
+```bash
+git clone https://github.com/balasadhana/PrepMate.git
+```
+
+---
 
 ### Backend Setup
+
 ```bash
 cd server
 npm install
 npm start
 ```
 
+---
+
 ### Frontend Setup
+
 ```bash
 cd client
 npm install
 npm start
 ```
 
-### Environment Variables
-Create a `.env` file in the server directory:
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file inside the `server` folder.
+
 ```env
 MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
+JWT_SECRET=your_secret_key
 PORT=5000
 ```
 
-## API Endpoints
+---
 
-### Resume Management
-- `POST /api/resumes` - Create a new resume
-- `GET /api/resumes` - Get all resumes
-- `GET /api/resumes/:id` - Get resume by ID
-- `GET /api/resumes/user/:email` - Get resumes by user email
+## 📡 API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/profile` - Get user profile
 
-## Usage Guide
+- POST /api/auth/register
+- POST /api/auth/login
+- GET /api/auth/profile
 
-### Creating a Resume
-1. **Select Template**: Choose from 4 professional templates
-2. **Fill Information**: Complete all relevant sections
-3. **Preview**: Click "Preview Resume" to see the final result
-4. **Save**: Save your resume to your account
-5. **Export**: Download as PDF or print
+### User
 
-### Template Features
-- **Professional**: Ideal for corporate and business positions
-- **Creative**: Perfect for design, marketing, and creative roles
-- **Minimal**: Clean and simple for traditional industries
-- **Technical**: Optimized for IT, engineering, and technical roles
+- GET /api/user/profile
+- PUT /api/user/profile
 
-### PDF Export
-- High-quality PDF generation
-- Automatic page breaks for long resumes
-- Print-optimized formatting
-- Customizable filenames with date stamps
+### Quizzes
 
-## File Structure
+- GET /api/quizzes
+- POST /api/quizzes
 
+### Study Materials
+
+- GET /api/materials
+- POST /api/materials
+
+### Experiences
+
+- GET /api/experiences
+- POST /api/experiences
+
+### Resume Builder
+
+- GET /api/resumes
+- POST /api/resumes
+
+---
+
+## 🚀 Future Enhancements
+
+- AI-Based Mock Interview System
+- Interview Performance Analytics
+- Company-Specific Question Banks
+- Email Notifications
+- Online Coding Assessments
+- Interview Scheduling System
+
+---
+
+## 👩‍💻 Author
+
+**Sadhana Bala**
+
+- Full Stack MERN Developer
+- GitHub: https://github.com/balasadhana
+- Project: PrepMate – Interview Preparation Platform
+---
+## 📂 Project Structure
+
+```text
+PrepMate
+│
+├── client
+│   ├── public
+│   ├── src
+│   │   ├── components
+│   │   │   ├── AdminLayout.jsx
+│   │   │   ├── UserLayout.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   └── FeatureCard.jsx
+│   │   │
+│   │   ├── pages
+│   │   │   ├── AdminDashboard.jsx
+│   │   │   ├── AdminManageUsersPage.jsx
+│   │   │   ├── AdminQuizManagementPage.jsx
+│   │   │   ├── AdminMaterialsUploadPage.jsx
+│   │   │   ├── AdminTipsUploadPage.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── SignupPage.jsx
+│   │   │   ├── LandingPage.jsx
+│   │   │   └── user
+│   │   │       ├── UserDashboard.jsx
+│   │   │       ├── ResumeBuilder.jsx
+│   │   │       ├── ShareExperience.jsx
+│   │   │       ├── StudyMaterial.jsx
+│   │   │       ├── TakeQuiz.jsx
+│   │   │       └── Tips.jsx
+│   │   │
+│   │   ├── styles
+│   │   ├── App.js
+│   │   └── index.js
+│   │
+│   └── package.json
+│
+├── server
+│   ├── models
+│   │   ├── User.js
+│   │   ├── Question.js
+│   │   ├── Quiz.js
+│   │   ├── Material.js
+│   │   ├── Experience.js
+│   │   ├── Resume.js
+│   │   ├── ResumeTemplate.js
+│   │   └── Tip.js
+│   │
+│   ├── routes
+│   │   ├── auth.js
+│   │   ├── admin.js
+│   │   ├── user.js
+│   │   ├── quizzes.js
+│   │   ├── materials.js
+│   │   ├── experiences.js
+│   │   └── tips.js
+│   │
+│   ├── uploads
+│   ├── server.js
+│   └── package.json
+│
+└── README.md
 ```
-prepmate/
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── components/    # Reusable components
-│   │   │   ├── ResumeTemplate.jsx    # Resume template components
-│   │   │   └── ResumePreview.jsx     # Preview and PDF export
-│   │   ├── pages/         # Page components
-│   │   │   └── user/
-│   │   │       └── ResumeBuilder.jsx # Main resume builder
-│   │   └── styles/        # CSS stylesheets
-├── server/                 # Node.js backend
-│   ├── models/            # MongoDB schemas
-│   │   └── ResumePublic.js # Resume data model
-│   ├── routes/            # API routes
-│   │   └── resumesPublic.js # Resume API endpoints
-│   └── server.js          # Express server
-└── README.md              # This file
-```
 
-## Contributing
+## 📜 License
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+This project is developed for educational, learning, and portfolio purposes.
 
-## License
+---
 
-This project is licensed under the MIT License.
+## ⭐ Support
 
-## Support
-
-For support and questions, please open an issue in the GitHub repository. 
+If you find this project useful, consider giving it a star on GitHub.
