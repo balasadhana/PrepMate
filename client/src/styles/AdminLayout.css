@@ -1,0 +1,131 @@
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 2rem 0;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-sidebar h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 0 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #34495e;
+  padding-bottom: 1rem;
+}
+
+.admin-sidebar nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar nav a {
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+  font-weight: 500;
+}
+
+.admin-sidebar nav a:hover {
+  background: #34495e;
+  border-left-color: #3498db;
+  color: #3498db;
+}
+
+.admin-sidebar nav a.active {
+  background: #34495e;
+  border-left-color: #3498db;
+  color: #3498db;
+}
+
+/* Main Content */
+.admin-main {
+  flex: 1;
+  margin-left: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between; /* pushes title left, button right */
+  align-items: center; /* vertically align */
+  padding: 10px 20px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-header h1 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.6rem;
+}
+.logout-btn {
+  padding: 5px 5px;
+  font-size: 14px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+
+.logout-btn:hover {
+  background: #c0392b;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 150px;
+  }
+  
+  .admin-main {
+    margin-left: 200px;
+  }
+  
+  .admin-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .admin-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+  
+  .admin-main {
+    margin-left: 0;
+  }
+  
+  .admin-container {
+    flex-direction: column;
+  }
+} 

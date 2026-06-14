@@ -1,0 +1,396 @@
+/* Resume Template Base Styles */
+.resume-template {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Professional Template */
+.resume-template.professional {
+  border-left: 4px solid #2563eb;
+}
+
+.resume-template.professional .resume-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.resume-template.professional .header-left .name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.resume-template.professional .header-left .title {
+  font-size: 1.25rem;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 500;
+}
+
+.resume-template.professional .header-right .contact-info p {
+  margin: 8px 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.resume-template.professional .contact-info .icon {
+  margin-right: 8px;
+  color: #2563eb;
+}
+
+.resume-template.professional .resume-section {
+  margin-bottom: 25px;
+}
+
+.resume-template.professional .resume-section h2 {
+  font-size: 1.5rem;
+  color: #1f2937;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.resume-template.professional .experience-item,
+.resume-template.professional .education-item {
+  margin-bottom: 20px;
+}
+
+.resume-template.professional .exp-header,
+.resume-template.professional .edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.resume-template.professional .exp-header h3,
+.resume-template.professional .edu-header h3 {
+  font-size: 1.1rem;
+  color: #1f2937;
+  margin: 0;
+  font-weight: 600;
+}
+
+.resume-template.professional .company,
+.resume-template.professional .school {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.resume-template.professional .duration,
+.resume-template.professional .year {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.resume-template.professional .exp-description {
+  color: #4b5563;
+  margin: 0;
+}
+
+.resume-template.professional .skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.resume-template.professional .skill-tag {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+}
+
+.resume-template.professional .project-item h3 {
+  color: #1f2937;
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.resume-template.professional .project-item p {
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Creative Template */
+.resume-template.creative {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.resume-template.creative .resume-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.resume-template.creative .header-main .name {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.resume-template.creative .header-main .title {
+  font-size: 1.5rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.resume-template.creative .creative-contact {
+  margin-top: 20px;
+}
+
+.resume-template.creative .creative-contact p {
+  margin: 5px 0;
+  opacity: 0.9;
+}
+
+.resume-template.creative .creative-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.resume-template.creative .creative-section h2 {
+  font-size: 1.8rem;
+  margin: 0 0 20px 0;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.resume-template.creative .creative-exp,
+.resume-template.creative .creative-edu {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.resume-template.creative .creative-skills {
+  justify-content: center;
+}
+
+.resume-template.creative .creative-skill {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Minimal Template */
+.resume-template.minimal {
+  background: #fafafa;
+  border: none;
+  box-shadow: none;
+}
+
+.resume-template.minimal .minimal-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.resume-template.minimal .minimal-header .name {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #1f2937;
+  margin: 0 0 15px 0;
+  letter-spacing: 2px;
+}
+
+.resume-template.minimal .minimal-contact p {
+  margin: 5px 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.resume-template.minimal .minimal-section {
+  margin-bottom: 30px;
+}
+
+.resume-template.minimal .minimal-section h2 {
+  font-size: 1.3rem;
+  color: #374151;
+  margin: 0 0 20px 0;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.resume-template.minimal .minimal-exp,
+.resume-template.minimal .minimal-edu {
+  margin-bottom: 25px;
+  padding-left: 20px;
+  border-left: 2px solid #e5e7eb;
+}
+
+.resume-template.minimal .minimal-project {
+  margin-bottom: 20px;
+}
+
+/* Technical Template */
+.resume-template.technical {
+  background: #1f2937;
+  color: #f9fafb;
+  border-left: 4px solid #10b981;
+}
+
+.resume-template.technical .technical-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #374151;
+}
+
+.resume-template.technical .header-left .name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #f9fafb;
+  margin: 0 0 8px 0;
+}
+
+.resume-template.technical .header-left .title {
+  font-size: 1.25rem;
+  color: #10b981;
+  margin: 0;
+  font-weight: 500;
+}
+
+.resume-template.technical .technical-contact p {
+  margin: 8px 0;
+  color: #d1d5db;
+  font-size: 0.95rem;
+}
+
+.resume-template.technical .technical-contact .icon {
+  margin-right: 8px;
+  color: #10b981;
+}
+
+.resume-template.technical .technical-section {
+  margin-bottom: 25px;
+}
+
+.resume-template.technical .technical-section h2 {
+  font-size: 1.5rem;
+  color: #f9fafb;
+  border-bottom: 2px solid #374151;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.resume-template.technical .technical-exp,
+.resume-template.technical .technical-edu {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #374151;
+  border-radius: 8px;
+}
+
+.resume-template.technical .technical-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.resume-template.technical .technical-skill {
+  background: #10b981;
+  color: #1f2937;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Print Styles */
+@media print {
+  .resume-template {
+    box-shadow: none;
+    margin: 0;
+    padding: 20px;
+    max-width: none;
+    page-break-inside: avoid;
+  }
+  
+  .resume-template.creative {
+    background: white !important;
+    color: #333 !important;
+  }
+  
+  .resume-template.technical {
+    background: white !important;
+    color: #333 !important;
+  }
+  
+  .resume-template.creative .creative-section {
+    background: #f8f9fa !important;
+    color: #333 !important;
+  }
+  
+  .resume-template.technical .technical-section {
+    background: white !important;
+    color: #333 !important;
+  }
+  
+  .resume-template.technical .technical-exp,
+  .resume-template.technical .technical-edu {
+    background: #f8f9fa !important;
+    color: #333 !important;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .resume-template {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .resume-template.professional .resume-header,
+  .resume-template.technical .technical-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .resume-template.professional .header-right,
+  .resume-template.technical .technical-header .header-right {
+    margin-top: 15px;
+  }
+  
+  .resume-template.professional .exp-header,
+  .resume-template.professional .edu-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .resume-template.creative .header-main .name {
+    font-size: 2rem;
+  }
+  
+  .resume-template.minimal .minimal-header .name {
+    font-size: 2rem;
+  }
+}
