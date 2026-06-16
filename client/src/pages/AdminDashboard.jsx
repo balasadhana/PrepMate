@@ -53,7 +53,7 @@ const AdminDashboard = () => {
   const [error, setError] = useState('');
   const [selectedTimeframe, setSelectedTimeframe] = useState('week');
 
-  const API_BASE_URL = 'http://localhost:5000/api/admin';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/admin';
 
   useEffect(() => {
     fetchDashboardData();
@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch all data in parallel
       const [
         usersResponse,
@@ -188,7 +188,7 @@ const AdminDashboard = () => {
 
   const generateRecentActivity = (users, materials, quizzes, experiences) => {
     const activities = [];
-    
+
     // Add recent user registrations
     users.slice(0, 3).forEach(user => {
       activities.push({
@@ -262,8 +262,8 @@ const AdminDashboard = () => {
             <p className="subtitle">Welcome back! Here's what's happening with your platform.</p>
           </div>
           <div className="header-actions">
-            <select 
-              value={selectedTimeframe} 
+            <select
+              value={selectedTimeframe}
               onChange={(e) => setSelectedTimeframe(e.target.value)}
               className="timeframe-selector"
             >
@@ -276,18 +276,18 @@ const AdminDashboard = () => {
             </button>
           </div>
         </div>
-        
+
         {loading && (
           <div className="loading-container">
             <div className="loading-spinner"></div>
             <p>Loading dashboard data...</p>
           </div>
         )}
-        
+
         {error && (
           <div className="error-message">{error}</div>
         )}
-        
+
         {!loading && !error && (
           <>
             {/* Key Metrics Cards */}
@@ -301,7 +301,7 @@ const AdminDashboard = () => {
                     <span className="metric-change positive">+12% from last month</span>
                   </div>
                 </div>
-                
+
                 <div className="metric-card warning">
                   <div className="metric-icon">⏳</div>
                   <div className="metric-content">
@@ -310,7 +310,7 @@ const AdminDashboard = () => {
                     <span className="metric-change neutral">No change</span>
                   </div>
                 </div>
-                
+
                 <div className="metric-card info">
                   <div className="metric-icon">📚</div>
                   <div className="metric-content">
@@ -319,7 +319,7 @@ const AdminDashboard = () => {
                     <span className="metric-change positive">+8% from last week</span>
                   </div>
                 </div>
-                
+
                 <div className="metric-card success">
                   <div className="metric-icon">🧠</div>
                   <div className="metric-content">
@@ -374,8 +374,8 @@ const AdminDashboard = () => {
                     <span className="chart-subtitle">Approval status distribution</span>
                   </div>
                   <div className="chart-container">
-                    <Bar 
-                      data={analyticsData.experienceStatus} 
+                    <Bar
+                      data={analyticsData.experienceStatus}
                       options={{
                         ...chartOptions,
                         scales: {
@@ -391,7 +391,7 @@ const AdminDashboard = () => {
                             }
                           }
                         }
-                      }} 
+                      }}
                     />
                   </div>
                 </div>

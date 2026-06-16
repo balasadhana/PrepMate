@@ -13,7 +13,7 @@ const AdminTemplateUploadPage = () => {
   });
   const [message, setMessage] = useState('');
 
-  const API_BASE_URL = 'http://localhost:5000/api/admin';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/admin';
 
   // Fetch all templates on component mount
   useEffect(() => {
@@ -46,7 +46,7 @@ const AdminTemplateUploadPage = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.title || !formData.url) {
       setMessage('Please fill in all required fields');
       return;
@@ -55,7 +55,7 @@ const AdminTemplateUploadPage = () => {
     try {
       setLoading(true);
       const tagsArray = formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [];
-      
+
       await axios.post(`${API_BASE_URL}/resume-templates`, {
         title: formData.title,
         url: formData.url,
@@ -96,7 +96,7 @@ const AdminTemplateUploadPage = () => {
     <AdminLayout>
       <div className="container">
         <h1>Resume Template Management</h1>
-        
+
         {/* Upload Form */}
         <div className="upload-section">
           <h2>Upload New Template</h2>
@@ -154,9 +154,9 @@ const AdminTemplateUploadPage = () => {
         {/* Templates List */}
         <div className="templates-section">
           <h2>Uploaded Templates</h2>
-          
+
           {loading && <div className="loading">Loading templates...</div>}
-          
+
           {!loading && templates.length === 0 && (
             <div className="no-templates">No templates uploaded yet.</div>
           )}
@@ -174,7 +174,7 @@ const AdminTemplateUploadPage = () => {
                     ×
                   </button>
                 </div>
-                
+
                 <div className="template-url">
                   <a href={template.url} target="_blank" rel="noopener noreferrer">
                     View Template

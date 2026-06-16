@@ -9,7 +9,7 @@ const Tips = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://prepmate-backend-wy02.onrender.com';
 
   useEffect(() => {
     const fetchTips = async () => {
@@ -126,8 +126,8 @@ const Tips = () => {
         </div>
         <div className="filter-group">
           <label>Category:</label>
-          <select 
-            value={selectedCategory} 
+          <select
+            value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="filter-select"
           >

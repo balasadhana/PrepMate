@@ -13,7 +13,7 @@ const AdminTipsUploadPage = () => {
   });
   const [message, setMessage] = useState('');
 
-  const API_BASE_URL = 'http://localhost:5000/api/admin';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/admin';
 
   // Predefined categories for dropdown
   const categories = [
@@ -65,7 +65,7 @@ const AdminTipsUploadPage = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.title || !formData.content || !formData.category) {
       setMessage('Please fill in all required fields');
       return;
@@ -73,7 +73,7 @@ const AdminTipsUploadPage = () => {
 
     try {
       setLoading(true);
-      
+
       await axios.post(`${API_BASE_URL}/tips/upload`, {
         title: formData.title,
         content: formData.content,
@@ -115,7 +115,7 @@ const AdminTipsUploadPage = () => {
       <div className="admin-tips-page">
         <div className="container">
           <h1>Interview Tips Management</h1>
-          
+
           {/* Upload Form */}
           <div className="upload-section">
             <h2>Upload New Tip</h2>
@@ -179,9 +179,9 @@ const AdminTipsUploadPage = () => {
           {/* Tips List */}
           <div className="tips-section">
             <h2>Uploaded Tips</h2>
-            
+
             {loading && <div className="loading">Loading tips...</div>}
-            
+
             {!loading && tips.length === 0 && (
               <div className="no-tips">No tips uploaded yet.</div>
             )}
@@ -199,7 +199,7 @@ const AdminTipsUploadPage = () => {
                       ×
                     </button>
                   </div>
-                  
+
                   <div className="tip-category">
                     <span className="category-badge">{tip.category}</span>
                   </div>

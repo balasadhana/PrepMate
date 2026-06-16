@@ -139,6 +139,30 @@ router.delete('/users/:id', async (req, res) => {
   }
 });
 
+// Approve user
+router.patch('/users/:id/approve', async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { isApproved: true },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({
+      message: 'User approved successfully',
+      user,
+    });
+  } catch (err) {
+    console.error('Error approving user:', err);
+    res.status(500).json({ error: 'Failed to approve user' });
+  }
+});
+
+
 // Upload a new study material
 router.post('/materials/upload', async (req, res) => {
   try {
@@ -280,9 +304,10 @@ router.post('/quizzes', async (req, res) => {
     }
 
     // Validate correct answer
-    if (!options.includes(correctAnswer)) {
+    const validAnswers = ['A', 'B', 'C', 'D'];
+    if (!validAnswers.includes(correctAnswer)) {
       return res.status(400).json({ 
-        error: 'Correct answer must be one of the provided options' 
+        error: 'Correct answer must be one of: A, B, C, D' 
       });
     }
 
@@ -345,9 +370,32 @@ router.put('/quizzes/:id', async (req, res) => {
     
     const updateData = {};
     if (question) updateData.question = question;
-    if (options) updateData.options = options;
-    if (correctAnswer) updateData.correctAnswer = correctAnswer;
-    if (domain) updateData.domain = domain;
+    if (options) {
+      if (!Array.isArray(options) || options.length !== 4 || options.some(opt => !opt.trim())) {
+        return res.status(400).json({ 
+          error: 'Exactly 4 non-empty options are required' 
+        });
+      }
+      updateData.options = options;
+    }
+    if (correctAnswer) {
+      const validAnswers = ['A', 'B', 'C', 'D'];
+      if (!validAnswers.includes(correctAnswer)) {
+        return res.status(400).json({ 
+          error: 'Correct answer must be one of: A, B, C, D' 
+        });
+      }
+      updateData.correctAnswer = correctAnswer;
+    }
+    if (domain) {
+      const validDomains = ['DBMS', 'DSA', 'Frontend', 'Backend', 'System Design', 'Other'];
+      if (!validDomains.includes(domain)) {
+        return res.status(400).json({ 
+          error: 'Invalid domain. Must be one of: ' + validDomains.join(', ')
+        });
+      }
+      updateData.domain = domain;
+    }
     if (explanation !== undefined) updateData.explanation = explanation;
 
     const quiz = await Quiz.findByIdAndUpdate(

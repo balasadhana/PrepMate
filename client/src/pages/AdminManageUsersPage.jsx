@@ -53,7 +53,7 @@ const AdminManageUsersPage = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showUserModal, setShowUserModal] = useState(false);
 
-  const API_BASE_URL = 'http://localhost:5000/api/admin';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/admin';
 
   // Fetch users on component mount
   useEffect(() => {
@@ -77,7 +77,7 @@ const AdminManageUsersPage = () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
-      
+
       if (roleFilter) params.append('role', roleFilter);
       if (searchTerm) params.append('search', searchTerm);
 
@@ -150,7 +150,7 @@ const AdminManageUsersPage = () => {
 
     // Filter by search term
     if (searchTerm) {
-      filtered = filtered.filter(user => 
+      filtered = filtered.filter(user =>
         user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -178,7 +178,7 @@ const AdminManageUsersPage = () => {
     try {
       setLoading(true);
       await axios.delete(`${API_BASE_URL}/users/${userId}`);
-      
+
       setMessage(`User "${userName}" deleted successfully!`);
       fetchUsers(); // Refresh the user list
     } catch (error) {
@@ -221,19 +221,19 @@ const AdminManageUsersPage = () => {
   };
 
   // ADD THIS FUNCTION HERE
-const handleApproveUser = async (userId, userName) => {
-  if (!window.confirm(`Approve user "${userName}"?`)) return;
-  try {
-    setLoading(true);
-    await axios.patch(`${API_BASE_URL}/users/${userId}/approve`);
-    setMessage(`User "${userName}" approved successfully!`);
-    fetchUsers();
-  } catch (error) {
-    setMessage(error.response?.data?.error || 'Failed to approve user');
-  } finally {
-    setLoading(false);
-  }
-};
+  const handleApproveUser = async (userId, userName) => {
+    if (!window.confirm(`Approve user "${userName}"?`)) return;
+    try {
+      setLoading(true);
+      await axios.patch(`${API_BASE_URL}/users/${userId}/approve`);
+      setMessage(`User "${userName}" approved successfully!`);
+      fetchUsers();
+    } catch (error) {
+      setMessage(error.response?.data?.error || 'Failed to approve user');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Chart options
   const chartOptions = {
@@ -354,7 +354,7 @@ const handleApproveUser = async (userId, userName) => {
               />
               <span className="search-icon">🔍</span>
             </div>
-            
+
             <div className="filter-controls">
               <select
                 value={roleFilter}
@@ -364,7 +364,7 @@ const handleApproveUser = async (userId, userName) => {
                 <option value="user">All Regular Users</option>
                 <option value="user">Users Only</option>
               </select>
-              
+
               <button onClick={clearFilters} className="clear-filters-btn">
                 Clear Filters
               </button>
@@ -382,14 +382,14 @@ const handleApproveUser = async (userId, userName) => {
               </span>
             </div>
           </div>
-          
+
           {loading && (
             <div className="loading-container">
               <div className="loading-spinner"></div>
               <p>Loading users...</p>
             </div>
           )}
-          
+
           {!loading && filteredUsers.length === 0 && (
             <div className="no-users">
               <div className="no-users-icon">👥</div>
@@ -448,16 +448,16 @@ const handleApproveUser = async (userId, userName) => {
                           >
                             👁️ View
                           </button>
-                              {!user.isApproved && (
-                               <button
-                               onClick={() => handleApproveUser(user._id, user.name || user.email)}
-                                 className="approve-btn"
-                               title="Approve user"
-                                 disabled={loading}
-                                 >
-                                 ✅ Approve
-                                </button>
-                              )}
+                          {!user.isApproved && (
+                            <button
+                              onClick={() => handleApproveUser(user._id, user.name || user.email)}
+                              className="approve-btn"
+                              title="Approve user"
+                              disabled={loading}
+                            >
+                              ✅ Approve
+                            </button>
+                          )}
                           <button
                             onClick={() => handleDeleteUser(user._id, user.name || user.email)}
                             className="delete-btn"
@@ -555,7 +555,7 @@ const handleApproveUser = async (userId, userName) => {
                 </div>
               </div>
               <div className="modal-footer">
-                <button 
+                <button
                   className="delete-btn"
                   onClick={() => {
                     handleDeleteUser(selectedUser._id, selectedUser.name || selectedUser.email);

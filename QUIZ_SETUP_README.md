@@ -142,17 +142,17 @@ node test-admin-quiz.js
 
 ### User Endpoints (Public)
 ```
-GET http://localhost:5000/api/quizzes
-GET http://localhost:5000/api/quizzes/DBMS
+GET https://prepmate-backend-wy02.onrender.com/api/quizzes
+GET https://prepmate-backend-wy02.onrender.com/api/quizzes/DBMS
 ```
 
 ### Admin Endpoints
 ```
-POST http://localhost:5000/api/quizzes
-GET http://localhost:5000/api/admin/quizzes
-PUT http://localhost:5000/api/admin/quizzes/:id
-DELETE http://localhost:5000/api/admin/quizzes/:id
-PATCH http://localhost:5000/api/admin/quizzes/:id
+POST https://prepmate-backend-wy02.onrender.com/api/quizzes
+GET https://prepmate-backend-wy02.onrender.com/api/admin/quizzes
+PUT https://prepmate-backend-wy02.onrender.com/api/admin/quizzes/:id
+DELETE https://prepmate-backend-wy02.onrender.com/api/admin/quizzes/:id
+PATCH https://prepmate-backend-wy02.onrender.com/api/admin/quizzes/:id
 ```
 
 ## Quiz Data Structure
@@ -216,7 +216,7 @@ Each quiz question contains:
 
 2. **CORS Error**
    - Backend CORS is enabled
-   - Frontend proxy is set to `http://localhost:5000`
+   - Frontend proxy is set to `https://prepmate-backend-wy02.onrender.com`
 
 3. **No Quizzes Displayed**
    - Create quiz questions through admin interface

@@ -15,7 +15,7 @@ const StudyMaterial = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  const API_BASE_URL = 'http://localhost:5000';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com';
 
   useEffect(() => {
     fetchMaterials();
@@ -26,7 +26,7 @@ const StudyMaterial = () => {
     try {
       setLoading(true);
       setError('');
-      
+
       const params = new URLSearchParams({
         subject: selectedSubject,
         search: searchTerm,
@@ -37,11 +37,11 @@ const StudyMaterial = () => {
       });
 
       const response = await axios.get(`${API_BASE_URL}/api/materials?${params}`);
-      
+
       setMaterials(response.data.materials || []);
       setTotalPages(response.data.pagination.totalPages);
       setTotalItems(response.data.pagination.totalItems);
-      
+
     } catch (err) {
       console.error('Error fetching materials:', err);
       setError(err?.response?.data?.error || 'Failed to fetch study materials');
@@ -83,7 +83,7 @@ const StudyMaterial = () => {
     try {
       // Increment download count
       await axios.post(`${API_BASE_URL}/api/materials/${material._id}/download`);
-      
+
       // Create download link
       const downloadUrl = `${API_BASE_URL}${material.fileUrl}`;
       const link = document.createElement('a');
@@ -93,16 +93,16 @@ const StudyMaterial = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // Update local state
-      setMaterials(prev => 
-        prev.map(m => 
-          m._id === material._id 
+      setMaterials(prev =>
+        prev.map(m =>
+          m._id === material._id
             ? { ...m, downloadCount: (m.downloadCount || 0) + 1 }
             : m
         )
       );
-      
+
     } catch (err) {
       console.error('Error downloading material:', err);
       // Still try to download even if count update fails
@@ -316,7 +316,7 @@ const StudyMaterial = () => {
           <div className="no-materials-icon">📚</div>
           <h3>No materials found</h3>
           <p>
-            {searchTerm || selectedSubject !== 'all' 
+            {searchTerm || selectedSubject !== 'all'
               ? 'Try adjusting your search criteria or filters.'
               : 'No study materials have been uploaded yet.'
             }
@@ -334,7 +334,7 @@ const StudyMaterial = () => {
           >
             ← Previous
           </button>
-          
+
           <div className="page-numbers">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
               <button
@@ -346,7 +346,7 @@ const StudyMaterial = () => {
               </button>
             ))}
           </div>
-          
+
           <button
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}

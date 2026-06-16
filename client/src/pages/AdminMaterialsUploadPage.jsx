@@ -22,7 +22,7 @@ const AdminMaterialsUploadPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [filePreview, setFilePreview] = useState('');
 
-  const API_BASE_URL = 'http://localhost:5000';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com';
 
   // Predefined subjects for consistency
   const predefinedSubjects = [
@@ -62,13 +62,13 @@ const AdminMaterialsUploadPage = () => {
     try {
       setLoading(true);
       setError('');
-      
+
       const response = await axios.get(`${API_BASE_URL}/api/materials`, {
         params: { limit: 100 } // Get more materials for admin view
       });
-      
+
       setMaterials(response.data.materials || []);
-      
+
     } catch (err) {
       console.error('Error fetching materials:', err);
       setError(err?.response?.data?.error || 'Failed to fetch materials');
@@ -89,7 +89,7 @@ const AdminMaterialsUploadPage = () => {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      
+
       // Create preview for images
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
@@ -116,7 +116,7 @@ const AdminMaterialsUploadPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!selectedFile && !editingMaterial) {
       setError('Please select a file to upload');
       return;
@@ -138,16 +138,16 @@ const AdminMaterialsUploadPage = () => {
           `${API_BASE_URL}/api/materials/${editingMaterial._id}`,
           formData
         );
-        
+
         setSuccess('Material updated successfully!');
-        setMaterials(prev => 
-          prev.map(m => 
-            m._id === editingMaterial._id 
-              ? response.data.material 
+        setMaterials(prev =>
+          prev.map(m =>
+            m._id === editingMaterial._id
+              ? response.data.material
               : m
           )
         );
-        
+
       } else {
         // Upload new material
         const uploadData = new FormData();
@@ -174,7 +174,7 @@ const AdminMaterialsUploadPage = () => {
       }
 
       resetForm();
-      
+
     } catch (err) {
       console.error('Error uploading material:', err);
       setError(err?.response?.data?.error || 'Failed to upload material');
@@ -210,7 +210,7 @@ const AdminMaterialsUploadPage = () => {
 
       setSuccess('Material deleted successfully!');
       setMaterials(prev => prev.filter(m => m._id !== materialId));
-      
+
     } catch (err) {
       console.error('Error deleting material:', err);
       setError(err?.response?.data?.error || 'Failed to delete material');
@@ -258,7 +258,7 @@ const AdminMaterialsUploadPage = () => {
       {/* Upload Form */}
       <div className="upload-section">
         <h2>{editingMaterial ? 'Edit Material' : 'Upload New Material'}</h2>
-        
+
         <form onSubmit={handleSubmit} className="upload-form">
           <div className="form-row">
             <div className="form-group">
@@ -342,7 +342,7 @@ const AdminMaterialsUploadPage = () => {
                 required
               />
               <small>Supported formats: PDF, DOCX, PPT, PPTX, TXT, JPG, PNG, MP4, MP3 (Max: 50MB)</small>
-              
+
               {filePreview && (
                 <div className="file-preview">
                   <img src={filePreview} alt="File preview" />
@@ -359,7 +359,7 @@ const AdminMaterialsUploadPage = () => {
             >
               {uploading ? 'Processing...' : (editingMaterial ? 'Update Material' : 'Upload Material')}
             </button>
-            
+
             {editingMaterial && (
               <button
                 type="button"
@@ -379,7 +379,7 @@ const AdminMaterialsUploadPage = () => {
           <p>❌ {error}</p>
         </div>
       )}
-      
+
       {success && (
         <div className="success-message">
           <p>✅ {success}</p>
@@ -389,7 +389,7 @@ const AdminMaterialsUploadPage = () => {
       {/* Materials List */}
       <div className="materials-section">
         <h2>Uploaded Materials ({materials.length})</h2>
-        
+
         {loading ? (
           <div className="loading">Loading materials...</div>
         ) : materials.length > 0 ? (

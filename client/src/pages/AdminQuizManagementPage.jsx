@@ -55,7 +55,7 @@ const AdminQuizManagementPage = () => {
     explanation: ''
   });
 
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/admin';
 
   // Predefined domains
   const domains = ['DBMS', 'DSA', 'Frontend', 'Backend', 'System Design', 'Other'];
@@ -63,15 +63,21 @@ const AdminQuizManagementPage = () => {
   // Fetch quizzes on component mount
   useEffect(() => {
     fetchQuizzes();
-    generateAnalytics();
   }, []);
+
+  // Update analytics when quizzes change
+  useEffect(() => {
+    generateAnalytics();
+  }, [quizzes]);
 
   // Fetch all quizzes
   const fetchQuizzes = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_BASE_URL}/quizzes`);
-      if (response.data.success) {
+      if (Array.isArray(response.data)) {
+        setQuizzes(response.data);
+      } else if (response.data && response.data.success) {
         setQuizzes(response.data.data);
       }
     } catch (error) {
@@ -92,21 +98,30 @@ const AdminQuizManagementPage = () => {
     const domainLabels = Object.keys(domainCounts);
     const domainData = Object.values(domainCounts);
 
+    // Modern color palette for domains
+    const domainColors = {
+      'DBMS': '#6366f1',          // Indigo
+      'DSA': '#0ea5e9',           // Sky Blue
+      'Frontend': '#f43f5e',      // Rose Pink
+      'Backend': '#10b981',       // Emerald Green
+      'System Design': '#8b5cf6', // Violet/Purple
+      'Other': '#f59e0b'          // Amber/Gold
+    };
+
+    // Fallback colors if domain is not predefined
+    const defaultColors = ['#6366f1', '#0ea5e9', '#f43f5e', '#10b981', '#8b5cf6', '#f59e0b'];
+    const backgroundColors = domainLabels.map((domain, index) => domainColors[domain] || defaultColors[index % defaultColors.length]);
+
     setAnalyticsData({
       domainDistribution: {
         labels: domainLabels,
         datasets: [{
           label: 'Quizzes per Domain',
           data: domainData,
-          backgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#4BC0C0',
-            '#9966FF',
-            '#FF9F40'
-          ],
-          borderWidth: 2
+          backgroundColor: backgroundColors,
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 8
         }]
       },
       quizStats: {
@@ -124,7 +139,7 @@ const AdminQuizManagementPage = () => {
       const optionIndex = parseInt(name.replace('option', ''));
       setQuizForm(prev => ({
         ...prev,
-        options: prev.options.map((option, index) => 
+        options: prev.options.map((option, index) =>
           index === optionIndex ? value : option
         )
       }));
@@ -139,7 +154,7 @@ const AdminQuizManagementPage = () => {
   // Handle quiz submission
   const handleQuizSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!quizForm.question || !quizForm.domain || !quizForm.correctAnswer) {
       setMessage('Please fill in question, domain, and correct answer');
       return;
@@ -153,7 +168,7 @@ const AdminQuizManagementPage = () => {
 
     try {
       setLoading(true);
-      
+
       // Create quiz with mock createdBy ID (admin)
       const quizData = {
         ...quizForm,
@@ -214,6 +229,37 @@ const AdminQuizManagementPage = () => {
     }
   };
 
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '70%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          usePointStyle: true,
+          padding: 20,
+          font: {
+            family: "'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
+            size: 12,
+            weight: '500'
+          },
+          color: '#64748b'
+        }
+      },
+      tooltip: {
+        padding: 12,
+        backgroundColor: '#1e293b',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        titleFont: { family: "'Segoe UI', sans-serif", size: 14, weight: 'bold' },
+        bodyFont: { family: "'Segoe UI', sans-serif", size: 13 },
+        cornerRadius: 8,
+        displayColors: true
+      }
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="admin-quiz-management">
@@ -231,13 +277,13 @@ const AdminQuizManagementPage = () => {
 
         {/* Tab Navigation */}
         <div className="tab-navigation">
-          <button 
+          <button
             className={`tab-btn ${activeTab === 'quizzes' ? 'active' : ''}`}
             onClick={() => setActiveTab('quizzes')}
           >
             📝 Manage Quizzes
           </button>
-          <button 
+          <button
             className={`tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
             onClick={() => setActiveTab('analytics')}
           >
@@ -320,7 +366,7 @@ const AdminQuizManagementPage = () => {
                     >
                       <option value="">Select correct answer</option>
                       {quizForm.options.map((option, index) => (
-                        <option key={index} value={option} disabled={!option.trim()}>
+                        <option key={index} value={String.fromCharCode(65 + index)} disabled={!option.trim()}>
                           {String.fromCharCode(65 + index)}: {option || 'Enter option first'}
                         </option>
                       ))}
@@ -351,7 +397,7 @@ const AdminQuizManagementPage = () => {
                 <h2>All Quiz Questions ({quizzes.length})</h2>
                 <span className="section-subtitle">Manage your created quiz questions</span>
               </div>
-              
+
               {loading ? (
                 <div className="loading">Loading quizzes...</div>
               ) : quizzes.length === 0 ? (
@@ -381,18 +427,18 @@ const AdminQuizManagementPage = () => {
                           </button>
                         </div>
                       </div>
-                      
+
                       <div className="quiz-content">
                         <h3 className="question-text">{quiz.question}</h3>
-                        
+
                         <div className="options-list">
                           {quiz.options.map((option, index) => (
-                            <div key={index} className={`option ${option === quiz.correctAnswer ? 'correct' : ''}`}>
+                            <div key={index} className={`option ${String.fromCharCode(65 + index) === quiz.correctAnswer ? 'correct' : ''}`}>
                               <span className="option-label">
                                 {String.fromCharCode(65 + index)}:
                               </span>
                               <span className="option-text">{option}</span>
-                              {option === quiz.correctAnswer && (
+                              {String.fromCharCode(65 + index) === quiz.correctAnswer && (
                                 <span className="correct-badge">✓</span>
                               )}
                             </div>
@@ -451,20 +497,13 @@ const AdminQuizManagementPage = () => {
               </div>
             </div>
 
-            <div className="charts-grid">
-              <div className="chart-card">
+            <div className="analytics-grid">
+              <div className="analytics-card">
                 <h3>Questions by Domain</h3>
                 <div className="chart-container">
-                  <Doughnut 
+                  <Doughnut
                     data={analyticsData.domainDistribution}
-                    options={{
-                      responsive: true,
-                      plugins: {
-                        legend: {
-                          position: 'bottom'
-                        }
-                      }
-                    }}
+                    options={chartOptions}
                   />
                 </div>
               </div>

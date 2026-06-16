@@ -107,7 +107,7 @@ const ResumeBuilder = () => {
   const updateSectionItem = (section, index, field, value) => {
     setResumeData(prev => ({
       ...prev,
-      [section]: prev[section].map((item, i) => 
+      [section]: prev[section].map((item, i) =>
         i === index ? { ...item, [field]: value } : item
       )
     }));
@@ -120,7 +120,7 @@ const ResumeBuilder = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [previewResumeData, setPreviewResumeData] = useState(null);
 
-  const API_BASE_URL = 'http://localhost:5000';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com';
 
   const fetchResumes = async () => {
     try {
@@ -224,8 +224,8 @@ const ResumeBuilder = () => {
         <h2>Choose Template</h2>
         <div className="template-grid">
           {templates.map(template => (
-            <div 
-              key={template.id} 
+            <div
+              key={template.id}
               className={`template-card ${selectedTemplate?.id === template.id ? 'selected' : ''}`}
               onClick={() => handleTemplateSelect(template)}
             >
@@ -292,7 +292,7 @@ const ResumeBuilder = () => {
           <div className="form-section">
             <div className="section-header">
               <h3>Education</h3>
-              <button 
+              <button
                 className="add-btn"
                 onClick={() => addSectionItem('education')}
               >
@@ -303,7 +303,7 @@ const ResumeBuilder = () => {
               <div key={index} className="section-item">
                 <div className="item-header">
                   <h4>Education #{index + 1}</h4>
-                  <button 
+                  <button
                     className="remove-btn"
                     onClick={() => removeSectionItem('education', index)}
                   >
@@ -356,7 +356,7 @@ const ResumeBuilder = () => {
           <div className="form-section">
             <div className="section-header">
               <h3>Work Experience</h3>
-              <button 
+              <button
                 className="add-btn"
                 onClick={() => addSectionItem('experience')}
               >
@@ -367,7 +367,7 @@ const ResumeBuilder = () => {
               <div key={index} className="section-item">
                 <div className="item-header">
                   <h4>Experience #{index + 1}</h4>
-                  <button 
+                  <button
                     className="remove-btn"
                     onClick={() => removeSectionItem('experience', index)}
                   >
@@ -420,7 +420,7 @@ const ResumeBuilder = () => {
           <div className="form-section">
             <div className="section-header">
               <h3>Skills</h3>
-              <button 
+              <button
                 className="add-btn"
                 onClick={() => addSectionItem('skills')}
               >
@@ -431,7 +431,7 @@ const ResumeBuilder = () => {
               <div key={index} className="section-item">
                 <div className="item-header">
                   <h4>Skill Category #{index + 1}</h4>
-                  <button 
+                  <button
                     className="remove-btn"
                     onClick={() => removeSectionItem('skills', index)}
                   >
@@ -467,17 +467,17 @@ const ResumeBuilder = () => {
             {error && <p className="error-text">{error}</p>}
             {success && <p className="success-text">{success}</p>}
             <div className="action-buttons">
-              <button 
-                className="preview-btn" 
-                onClick={previewResume} 
+              <button
+                className="preview-btn"
+                onClick={previewResume}
                 disabled={!resumeData.personalInfo.name || !resumeData.personalInfo.email || !resumeData.personalInfo.phone}
               >
                 <span className="btn-icon">👁️</span>
                 Preview Resume
               </button>
-              <button 
-                className="generate-btn" 
-                onClick={saveResume} 
+              <button
+                className="generate-btn"
+                onClick={saveResume}
                 disabled={!resumeData.personalInfo.name || !resumeData.personalInfo.email || !resumeData.personalInfo.phone}
               >
                 <span className="btn-icon">💾</span>
@@ -545,7 +545,7 @@ const ResumeBuilder = () => {
                   ) : null}
                 </div>
                 <div className="resume-card-actions">
-                  <button 
+                  <button
                     className="preview-resume-btn"
                     onClick={() => previewSavedResume(r)}
                   >

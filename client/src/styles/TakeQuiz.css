@@ -1,3 +1,4 @@
+
 /* Take Quiz Styles */
 .take-quiz {
   max-width: 1200px;
@@ -136,7 +137,7 @@
   flex-wrap: wrap;
 }
 
-.submit-btn, .back-btn, .retake-btn {
+.submit-btn, .next-btn, .back-btn, .retake-btn {
   padding: 14px 28px;
   border: none;
   border-radius: 8px;
@@ -146,17 +147,17 @@
   font-size: 16px;
 }
 
-.submit-btn {
+.submit-btn, .next-btn {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
 }
 
-.submit-btn:hover:not(:disabled) {
+.submit-btn:hover:not(:disabled), .next-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px -5px rgba(16, 185, 129, 0.4);
 }
 
-.submit-btn:disabled {
+.submit-btn:disabled, .next-btn:disabled {
   background: #9ca3af;
   cursor: not-allowed;
   transform: none;

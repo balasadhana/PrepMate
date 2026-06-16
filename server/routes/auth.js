@@ -53,18 +53,21 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(`[AUTH] Login attempt for email: "${email}" with password length: ${password ? password.length : 0}`);
 
     // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
+      console.log(`[AUTH] User not found for email: "${email}"`);
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     // ✅ LOG ROLE FOR DEBUGGING
-    console.log(`Logged in user role: ${user.role}`);
+    console.log(`[AUTH] User found: ${user.username}, Role: ${user.role}, Stored Hash: ${user.password}`);
 
     // Check password match
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log(`[AUTH] Password match result: ${isMatch}`);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
@@ -79,6 +82,8 @@ router.post('/login', async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
+
+    console.log(`[AUTH] Login successful for: ${user.email}`);
 
     res.status(200).json({
       message: 'Login successful',

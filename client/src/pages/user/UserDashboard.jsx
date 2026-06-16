@@ -21,15 +21,15 @@ const UserDashboard = () => {
   // Fetch dashboard data and update user info on component mount
   useEffect(() => {
     fetchDashboardData();
-    
+
     // Update user info from localStorage
     const storedUsername = localStorage.getItem('username');
     const storedEmail = localStorage.getItem('email');
-    
+
     // Debug logging for user info
     console.log('Stored username:', storedUsername);
     console.log('Stored email:', storedEmail);
-    
+
     setUserInfo({
       username: storedUsername || 'User',
       email: storedEmail || 'user@example.com'
@@ -39,13 +39,13 @@ const UserDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setDashboardData(prev => ({ ...prev, loading: true, error: null }));
-      
+
       // Fetch data from multiple endpoints
       const [quizzesRes, materialsRes, tipsRes, experiencesRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/quizzes'),
-        axios.get('http://localhost:5000/api/materials'),
-        axios.get('http://localhost:5000/api/tips'),
-        axios.get('http://localhost:5000/api/experiences')
+        axios.get('https://prepmate-backend-wy02.onrender.com/api/quizzes'),
+        axios.get('https://prepmate-backend-wy02.onrender.com/api/materials'),
+        axios.get('https://prepmate-backend-wy02.onrender.com/api/tips'),
+        axios.get('https://prepmate-backend-wy02.onrender.com/api/experiences')
       ]);
 
       // Handle different response formats from different APIs
@@ -100,11 +100,11 @@ const UserDashboard = () => {
   const refreshUserInfo = () => {
     const storedUsername = localStorage.getItem('username');
     const storedEmail = localStorage.getItem('email');
-    
+
     console.log('Refreshing user info...');
     console.log('Username:', storedUsername);
     console.log('Email:', storedEmail);
-    
+
     setUserInfo({
       username: storedUsername || 'User',
       email: storedEmail || 'user@example.com'

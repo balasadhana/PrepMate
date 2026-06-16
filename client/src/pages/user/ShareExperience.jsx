@@ -16,7 +16,7 @@ const ShareExperience = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const API_BASE_URL = 'http://localhost:5000';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com';
 
   const fetchExperiences = async () => {
     try {

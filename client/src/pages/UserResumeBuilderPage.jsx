@@ -10,7 +10,7 @@ const UserResumeBuilderPage = () => {
   const [loading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [generatingPDF, setGeneratingPDF] = useState(false);
-  
+
   // Form data state
   const [formData, setFormData] = useState({
     personalInfo: {
@@ -63,7 +63,7 @@ const UserResumeBuilderPage = () => {
     }]
   });
 
-  const API_BASE_URL = 'http://localhost:5000/api/user';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/user';
 
   // Fetch templates on component mount
   useEffect(() => {
@@ -87,7 +87,7 @@ const UserResumeBuilderPage = () => {
   const handleInputChange = (section, index, field, value) => {
     setFormData(prev => {
       const newData = { ...prev };
-      
+
       if (index !== undefined) {
         // Handle array fields (education, experience, etc.)
         newData[section] = [...prev[section]];
@@ -96,7 +96,7 @@ const UserResumeBuilderPage = () => {
         // Handle object fields (personalInfo)
         newData[section] = { ...prev[section], [field]: value };
       }
-      
+
       return newData;
     });
   };
@@ -179,13 +179,13 @@ const UserResumeBuilderPage = () => {
     try {
       setLoading(true);
       const userId = 'temp-user-id'; // Replace with actual user ID from auth
-      
+
       await axios.post(`${API_BASE_URL}/resumes`, {
         userId,
         templateId: selectedTemplate._id,
         ...formData
       });
-      
+
       alert('Resume saved successfully!');
     } catch (error) {
       console.error('Error saving resume:', error);
@@ -204,7 +204,7 @@ const UserResumeBuilderPage = () => {
 
     try {
       setGeneratingPDF(true);
-      
+
       // Create a temporary div for PDF generation
       const pdfContent = document.createElement('div');
       pdfContent.innerHTML = generateResumeHTML();
@@ -217,7 +217,7 @@ const UserResumeBuilderPage = () => {
       pdfContent.style.fontFamily = 'Arial, sans-serif';
       pdfContent.style.fontSize = '12px';
       pdfContent.style.lineHeight = '1.4';
-      
+
       document.body.appendChild(pdfContent);
 
       // Convert to canvas
@@ -253,7 +253,7 @@ const UserResumeBuilderPage = () => {
       // Download PDF
       const fileName = `${formData.personalInfo.name.replace(/\s+/g, '_')}_Resume.pdf`;
       pdf.save(fileName);
-      
+
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Failed to generate PDF');
@@ -324,8 +324,8 @@ const UserResumeBuilderPage = () => {
             <div style="margin-bottom: 15px;">
               <h3 style="margin: 0;">${project.title}</h3>
               ${project.description ? `<p style="margin: 5px 0;">${project.description}</p>` : ''}
-              ${project.technologies.length > 0 && project.technologies[0] ? 
-                `<p style="margin: 5px 0;"><strong>Technologies:</strong> ${project.technologies.join(', ')}</p>` : ''}
+              ${project.technologies.length > 0 && project.technologies[0] ?
+        `<p style="margin: 5px 0;"><strong>Technologies:</strong> ${project.technologies.join(', ')}</p>` : ''}
               ${project.link ? `<p style="margin: 5px 0;"><strong>Link:</strong> ${project.link}</p>` : ''}
             </div>
           `).join('')}
@@ -338,12 +338,12 @@ const UserResumeBuilderPage = () => {
     <div className="resume-builder-page">
       <div className="container">
         <h1>Resume Builder</h1>
-        
+
         <div className="builder-layout">
           {/* Left Panel - Form */}
           <div className="form-panel">
             <h2>Personal Information</h2>
-            
+
             {/* Personal Info */}
             <div className="form-section">
               <div className="form-row">
@@ -366,7 +366,7 @@ const UserResumeBuilderPage = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="form-row">
                 <div className="form-group">
                   <label>Phone</label>
@@ -387,7 +387,7 @@ const UserResumeBuilderPage = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="form-row">
                 <div className="form-group">
                   <label>LinkedIn</label>
@@ -435,7 +435,7 @@ const UserResumeBuilderPage = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="form-row">
                     <div className="form-group">
                       <label>Field of Study</label>
@@ -456,7 +456,7 @@ const UserResumeBuilderPage = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="form-row">
                     <div className="form-group">
                       <label>Start Date</label>
@@ -475,7 +475,7 @@ const UserResumeBuilderPage = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="form-group">
                     <label>Description</label>
                     <textarea
@@ -485,7 +485,7 @@ const UserResumeBuilderPage = () => {
                       rows="3"
                     />
                   </div>
-                  
+
                   {formData.education.length > 1 && (
                     <button
                       type="button"
@@ -527,7 +527,7 @@ const UserResumeBuilderPage = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="form-row">
                     <div className="form-group">
                       <label>Start Date</label>
@@ -547,7 +547,7 @@ const UserResumeBuilderPage = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="form-group">
                     <label>
                       <input
@@ -558,7 +558,7 @@ const UserResumeBuilderPage = () => {
                       Currently working here
                     </label>
                   </div>
-                  
+
                   <div className="form-group">
                     <label>Description</label>
                     <textarea
@@ -568,7 +568,7 @@ const UserResumeBuilderPage = () => {
                       rows="3"
                     />
                   </div>
-                  
+
                   {formData.experience.length > 1 && (
                     <button
                       type="button"
@@ -599,7 +599,7 @@ const UserResumeBuilderPage = () => {
                       placeholder="e.g., Programming Languages, Tools, etc."
                     />
                   </div>
-                  
+
                   <div className="form-group">
                     <label>Skills (comma-separated)</label>
                     <input
@@ -609,7 +609,7 @@ const UserResumeBuilderPage = () => {
                       placeholder="JavaScript, React, Node.js"
                     />
                   </div>
-                  
+
                   {formData.skills.length > 1 && (
                     <button
                       type="button"
@@ -663,7 +663,7 @@ const UserResumeBuilderPage = () => {
               >
                 {loading ? 'Saving...' : 'Save Resume'}
               </button>
-              
+
               <button
                 onClick={() => setShowPreview(!showPreview)}
                 disabled={!selectedTemplate}
@@ -671,7 +671,7 @@ const UserResumeBuilderPage = () => {
               >
                 {showPreview ? 'Hide Preview' : 'Show Preview'}
               </button>
-              
+
               <button
                 onClick={generatePDF}
                 disabled={generatingPDF || !selectedTemplate}

@@ -9,7 +9,7 @@ const SignupPage = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'user' 
+    role: 'user'
   });
 
   const [message, setMessage] = useState('');
@@ -44,7 +44,7 @@ const SignupPage = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      const response = await axios.post('https://prepmate-backend-wy02.onrender.com/api/auth/signup', formData);
       if (response.status === 201) {
         setMessage('Signup Successful!');
         setFormData({
@@ -99,8 +99,8 @@ const SignupPage = () => {
             <select name="role" value={formData.role} onChange={handleChange} required>
               <option value="user">User</option>
               <option value="admin">Admin</option>
-           </select>
-           <label>User Type</label>
+            </select>
+            <label>User Type</label>
           </div>
           <button type="submit" className="signup-btn">Sign Up</button>
 

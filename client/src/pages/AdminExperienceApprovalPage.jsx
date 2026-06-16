@@ -27,7 +27,7 @@ const AdminExperienceApprovalPage = () => {
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
 
-  const API_BASE_URL = 'http://localhost:5000/api/admin';
+  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/admin';
 
   // Fetch experiences on component mount
   useEffect(() => {
@@ -40,7 +40,7 @@ const AdminExperienceApprovalPage = () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
-      
+
       if (filters.status) params.append('status', filters.status);
       if (filters.company) params.append('company', filters.company);
       if (filters.position) params.append('position', filters.position);
@@ -92,7 +92,7 @@ const AdminExperienceApprovalPage = () => {
     try {
       setLoading(true);
       await axios.patch(`${API_BASE_URL}/experiences/${experienceId}/approve`);
-      
+
       setMessage('Experience approved successfully!');
       fetchExperiences();
       fetchStats();
@@ -117,7 +117,7 @@ const AdminExperienceApprovalPage = () => {
       await axios.patch(`${API_BASE_URL}/experiences/${experienceId}/reject`, {
         rejectionReason: rejectionReason.trim()
       });
-      
+
       setMessage('Experience rejected successfully!');
       setRejectionReason('');
       setShowRejectModal(false);
@@ -141,7 +141,7 @@ const AdminExperienceApprovalPage = () => {
     try {
       setLoading(true);
       await axios.delete(`${API_BASE_URL}/experiences/${experienceId}`);
-      
+
       setMessage('Experience deleted successfully!');
       fetchExperiences();
       fetchStats();
@@ -202,7 +202,7 @@ const AdminExperienceApprovalPage = () => {
       <div className="admin-experience-page">
         <div className="container">
           <h1>Experience Approval Management</h1>
-          
+
           {message && (
             <div className={`message ${message.includes('successfully') ? 'success' : 'error'}`}>
               {message}
@@ -249,7 +249,7 @@ const AdminExperienceApprovalPage = () => {
                   <option value="Rejected">Rejected</option>
                 </select>
               </div>
-              
+
               <div className="filter-group">
                 <label htmlFor="company">Company</label>
                 <input
@@ -261,7 +261,7 @@ const AdminExperienceApprovalPage = () => {
                   placeholder="Search by company..."
                 />
               </div>
-              
+
               <div className="filter-group">
                 <label htmlFor="position">Position</label>
                 <input
@@ -273,7 +273,7 @@ const AdminExperienceApprovalPage = () => {
                   placeholder="Search by position..."
                 />
               </div>
-              
+
               <button onClick={clearFilters} className="clear-filters-btn">
                 Clear Filters
               </button>
@@ -283,9 +283,9 @@ const AdminExperienceApprovalPage = () => {
           {/* Experiences List */}
           <div className="experiences-section">
             <h2>All Experiences ({experiences.length})</h2>
-            
+
             {loading && <div className="loading">Loading experiences...</div>}
-            
+
             {!loading && experiences.length === 0 && (
               <div className="no-experiences">No experiences found.</div>
             )}
@@ -333,13 +333,13 @@ const AdminExperienceApprovalPage = () => {
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="experience-details">
                     <div className="experience-meta">
                       <span className="company">{experience.company}</span>
                       <span className="position">{experience.position}</span>
                     </div>
-                    
+
                     <div className="experience-info">
                       <div className="info-row">
                         <span className="label">Interview Type:</span>
@@ -358,11 +358,11 @@ const AdminExperienceApprovalPage = () => {
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="experience-content">
                       <p>{experience.experience.substring(0, 150)}...</p>
                     </div>
-                    
+
                     <div className="experience-footer">
                       <span className={`status-badge ${getStatusBadgeClass(experience.status)}`}>
                         {experience.status}
@@ -391,14 +391,14 @@ const AdminExperienceApprovalPage = () => {
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
                 <h2>{selectedExperience.title}</h2>
-                <button 
+                <button
                   className="close-btn"
                   onClick={() => setShowDetailModal(false)}
                 >
                   ×
                 </button>
               </div>
-              
+
               <div className="modal-body">
                 <div className="detail-section">
                   <h3>Basic Information</h3>
@@ -488,7 +488,7 @@ const AdminExperienceApprovalPage = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="modal-footer">
                 {selectedExperience.status === 'Pending' && (
                   <>
@@ -534,14 +534,14 @@ const AdminExperienceApprovalPage = () => {
             <div className="modal-content reject-modal" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
                 <h2>Reject Experience</h2>
-                <button 
+                <button
                   className="close-btn"
                   onClick={() => setShowRejectModal(false)}
                 >
                   ×
                 </button>
               </div>
-              
+
               <div className="modal-body">
                 <p>Please provide a reason for rejecting this experience:</p>
                 <textarea
@@ -552,7 +552,7 @@ const AdminExperienceApprovalPage = () => {
                   className="rejection-textarea"
                 />
               </div>
-              
+
               <div className="modal-footer">
                 <button
                   onClick={() => handleReject(selectedExperience._id)}
