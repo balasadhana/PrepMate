@@ -276,9 +276,64 @@ router.patch('/materials/:id/status', async (req, res) => {
 
 // ==================== QUIZ ROUTES ====================
 
-// Create a new quiz question
+// Create a new quiz question or batch of questions
 router.post('/quizzes', async (req, res) => {
   try {
+    const validDomains = ['DBMS', 'DSA', 'Frontend', 'Backend', 'System Design', 'Other'];
+    const validAnswers = ['A', 'B', 'C', 'D'];
+
+    // Handle batch insertion
+    if (Array.isArray(req.body)) {
+      // Validate all items in the array
+      for (let i = 0; i < req.body.length; i++) {
+        const item = req.body[i];
+        const { question, options, correctAnswer, domain } = item;
+        
+        if (!question || !domain || !correctAnswer) {
+          return res.status(400).json({ 
+            error: `Question ${i + 1}: Question, domain, and correct answer are required` 
+          });
+        }
+
+        if (!Array.isArray(options) || options.length !== 4 || options.some(opt => !opt.trim())) {
+          return res.status(400).json({ 
+            error: `Question ${i + 1}: Exactly 4 non-empty options are required` 
+          });
+        }
+
+        if (!validDomains.includes(domain)) {
+          return res.status(400).json({ 
+            error: `Question ${i + 1}: Invalid domain. Must be one of: ` + validDomains.join(', ')
+          });
+        }
+
+        if (!validAnswers.includes(correctAnswer)) {
+          return res.status(400).json({ 
+            error: `Question ${i + 1}: Correct answer must be one of: A, B, C, D` 
+          });
+        }
+      }
+
+      // Map to quiz schema objects
+      const quizzesToSave = req.body.map(item => ({
+        question: item.question,
+        options: item.options,
+        correctAnswer: item.correctAnswer,
+        domain: item.domain,
+        explanation: item.explanation || '',
+        status: 'Active',
+        createdBy: '507f1f77bcf86cd799439011' // Mock admin ID
+      }));
+
+      const savedQuizzes = await Quiz.insertMany(quizzesToSave);
+      
+      return res.status(201).json({ 
+        message: `${savedQuizzes.length} quiz questions created successfully`,
+        quizzes: savedQuizzes
+      });
+    }
+
+    // Handle single question insertion
     const { question, options, correctAnswer, domain, explanation } = req.body;
     
     // Validate required fields
@@ -296,7 +351,6 @@ router.post('/quizzes', async (req, res) => {
     }
 
     // Validate domain
-    const validDomains = ['DBMS', 'DSA', 'Frontend', 'Backend', 'System Design', 'Other'];
     if (!validDomains.includes(domain)) {
       return res.status(400).json({ 
         error: 'Invalid domain. Must be one of: ' + validDomains.join(', ')
@@ -304,7 +358,6 @@ router.post('/quizzes', async (req, res) => {
     }
 
     // Validate correct answer
-    const validAnswers = ['A', 'B', 'C', 'D'];
     if (!validAnswers.includes(correctAnswer)) {
       return res.status(400).json({ 
         error: 'Correct answer must be one of: A, B, C, D' 

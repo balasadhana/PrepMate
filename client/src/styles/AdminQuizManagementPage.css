@@ -850,3 +850,62 @@
 .analytics-card:nth-child(1) { animation-delay: 0.1s; }
 .analytics-card:nth-child(2) { animation-delay: 0.2s; }
 .analytics-card:nth-child(3) { animation-delay: 0.3s; } 
+
+/* Batch Question Creation Styles */
+.question-block-card {
+  border: 1px solid #e2e8f0;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #f8fafc;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.question-block-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.add-another-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px dashed var(--accent-color);
+  border-radius: 8px;
+  background: rgba(78, 158, 255, 0.05);
+  color: var(--accent-color);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-another-btn:hover {
+  background: rgba(78, 158, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.remove-question-btn {
+  background: #fee2e2;
+  color: #ef4444;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.remove-question-btn:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+.form-actions-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  align-items: center;
+}

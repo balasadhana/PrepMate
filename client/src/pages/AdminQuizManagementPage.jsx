@@ -46,16 +46,22 @@ const AdminQuizManagementPage = () => {
     }
   });
 
-  // Quiz form state - updated for individual questions
-  const [quizForm, setQuizForm] = useState({
-    question: '',
-    options: ['', '', '', ''],
-    correctAnswer: '',
-    domain: '',
-    explanation: ''
-  });
+  // Selected domain for batch quiz creation
+  const [selectedDomain, setSelectedDomain] = useState('');
+  
+  // Quiz form state supporting multiple questions
+  const [questionsList, setQuestionsList] = useState([
+    {
+      question: '',
+      options: ['', '', '', ''],
+      correctAnswer: '',
+      explanation: ''
+    }
+  ]);
 
-  const API_BASE_URL = 'https://prepmate-backend-wy02.onrender.com/api/admin';
+  const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000/api/admin'
+    : 'https://prepmate-backend-wy02.onrender.com/api/admin';
 
   // Predefined domains
   const domains = ['DBMS', 'DSA', 'Frontend', 'Backend', 'System Design', 'Other'];
@@ -132,63 +138,103 @@ const AdminQuizManagementPage = () => {
     });
   };
 
-  // Handle quiz form input changes
-  const handleQuizInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name.startsWith('option')) {
-      const optionIndex = parseInt(name.replace('option', ''));
-      setQuizForm(prev => ({
-        ...prev,
-        options: prev.options.map((option, index) =>
-          index === optionIndex ? value : option
-        )
-      }));
-    } else {
-      setQuizForm(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+  // Add a new question block to the form
+  const addQuestionBlock = () => {
+    setQuestionsList(prev => [
+      ...prev,
+      {
+        question: '',
+        options: ['', '', '', ''],
+        correctAnswer: '',
+        explanation: ''
+      }
+    ]);
   };
 
-  // Handle quiz submission
+  // Remove a question block by index
+  const removeQuestionBlock = (index) => {
+    if (questionsList.length === 1) {
+      setMessage("You must keep at least one question block.");
+      return;
+    }
+    setQuestionsList(prev => prev.filter((_, idx) => idx !== index));
+  };
+
+  // Handle updates to question text, correct answer, or explanation
+  const handleQuestionChange = (qIndex, field, value) => {
+    setQuestionsList(prev => prev.map((q, idx) => {
+      if (idx !== qIndex) return q;
+      return { ...q, [field]: value };
+    }));
+  };
+
+  // Handle updates to options array inside a question block
+  const handleOptionChange = (qIndex, oIndex, value) => {
+    setQuestionsList(prev => prev.map((q, idx) => {
+      if (idx !== qIndex) return q;
+      const newOptions = [...q.options];
+      newOptions[oIndex] = value;
+      return { ...q, options: newOptions };
+    }));
+  };
+
+  // Handle submission of all questions in the batch
   const handleQuizSubmit = async (e) => {
     e.preventDefault();
 
-    if (!quizForm.question || !quizForm.domain || !quizForm.correctAnswer) {
-      setMessage('Please fill in question, domain, and correct answer');
+    if (!selectedDomain) {
+      setMessage('Please select a domain');
       return;
     }
 
-    // Check if all options are filled
-    if (quizForm.options.some(option => !option.trim())) {
-      setMessage('Please fill in all four options');
-      return;
+    // Validate all questions in the list
+    for (let i = 0; i < questionsList.length; i++) {
+      const q = questionsList[i];
+      if (!q.question.trim()) {
+        setMessage(`Please fill in the question text for Question ${i + 1}`);
+        return;
+      }
+      if (q.options.some(option => !option.trim())) {
+        setMessage(`Please fill in all four options for Question ${i + 1}`);
+        return;
+      }
+      if (!q.correctAnswer) {
+        setMessage(`Please select the correct answer for Question ${i + 1}`);
+        return;
+      }
     }
 
     try {
       setLoading(true);
 
-      // Create quiz with mock createdBy ID (admin)
-      const quizData = {
-        ...quizForm,
-        createdBy: '507f1f77bcf86cd799439011' // Mock admin ID
-      };
+      // Map questionsList items to API structure
+      const payload = questionsList.map(q => ({
+        question: q.question,
+        options: q.options,
+        correctAnswer: q.correctAnswer,
+        domain: selectedDomain,
+        explanation: q.explanation || ''
+      }));
 
-      await axios.post(`${API_BASE_URL}/quizzes`, quizData);
+      await axios.post(`${API_BASE_URL}/quizzes`, payload);
 
-      setMessage('Quiz question created successfully!');
-      setQuizForm({
-        question: '',
-        options: ['', '', '', ''],
-        correctAnswer: '',
-        domain: '',
-        explanation: ''
-      });
+      const count = questionsList.length;
+      setMessage(`${count} quiz question${count > 1 ? 's' : ''} created successfully!`);
+      
+      // Reset form states
+      setQuestionsList([
+        {
+          question: '',
+          options: ['', '', '', ''],
+          correctAnswer: '',
+          explanation: ''
+        }
+      ]);
+      setSelectedDomain('');
       fetchQuizzes(); // Refresh the list
     } catch (error) {
       console.error('Error creating quiz:', error);
-      setMessage(error.response?.data?.error || 'Failed to create quiz question');
+      setMessage(error.response?.data?.error || 'Failed to create quiz questions');
     } finally {
       setLoading(false);
     }
@@ -301,26 +347,13 @@ const AdminQuizManagementPage = () => {
                 <span className="section-subtitle">Add individual quiz questions for different domains</span>
               </div>
               <form onSubmit={handleQuizSubmit} className="quiz-form">
-                <div className="form-group">
-                  <label htmlFor="question">Question *</label>
-                  <textarea
-                    id="question"
-                    name="question"
-                    value={quizForm.question}
-                    onChange={handleQuizInputChange}
-                    placeholder="Enter the quiz question..."
-                    rows="3"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="domain">Domain *</label>
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label htmlFor="domain">Domain (Topic) *</label>
                   <select
                     id="domain"
                     name="domain"
-                    value={quizForm.domain}
-                    onChange={handleQuizInputChange}
+                    value={selectedDomain}
+                    onChange={(e) => setSelectedDomain(e.target.value)}
                     required
                   >
                     <option value="">Select domain</option>
@@ -332,62 +365,102 @@ const AdminQuizManagementPage = () => {
                   </select>
                 </div>
 
-                <div className="options-section">
-                  <label>Options *</label>
-                  <div className="options-grid">
-                    {quizForm.options.map((option, index) => (
-                      <div key={index} className="option-input">
-                        <label htmlFor={`option${index}`}>
-                          {String.fromCharCode(65 + index)}:
-                        </label>
-                        <input
-                          type="text"
-                          id={`option${index}`}
-                          name={`option${index}`}
-                          value={option}
-                          onChange={handleQuizInputChange}
-                          placeholder={`Option ${String.fromCharCode(65 + index)}`}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                  {questionsList.map((q, qIndex) => (
+                    <div key={qIndex} className="question-block-card">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                        <h3 style={{ margin: 0, fontSize: '1.15rem', color: 'var(--primary-color)' }}>
+                          Question {qIndex + 1}
+                        </h3>
+                        {questionsList.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeQuestionBlock(qIndex)}
+                            className="remove-question-btn"
+                          >
+                            🗑️ Remove
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="form-group" style={{ marginBottom: '1.2rem' }}>
+                        <label htmlFor={`question-${qIndex}`}>Question Text *</label>
+                        <textarea
+                          id={`question-${qIndex}`}
+                          value={q.question}
+                          onChange={(e) => handleQuestionChange(qIndex, 'question', e.target.value)}
+                          placeholder="Enter the quiz question..."
+                          rows="3"
                           required
                         />
                       </div>
-                    ))}
-                  </div>
+
+                      <div className="options-section" style={{ background: '#ffffff', marginBottom: '1.2rem' }}>
+                        <label>Options *</label>
+                        <div className="options-grid">
+                          {q.options.map((option, oIndex) => (
+                            <div key={oIndex} className="option-input">
+                              <label htmlFor={`option-${qIndex}-${oIndex}`}>
+                                {String.fromCharCode(65 + oIndex)}:
+                              </label>
+                              <input
+                                type="text"
+                                id={`option-${qIndex}-${oIndex}`}
+                                value={option}
+                                onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
+                                placeholder={`Option ${String.fromCharCode(65 + oIndex)}`}
+                                required
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label htmlFor={`correctAnswer-${qIndex}`}>Correct Answer *</label>
+                          <select
+                            id={`correctAnswer-${qIndex}`}
+                            value={q.correctAnswer}
+                            onChange={(e) => handleQuestionChange(qIndex, 'correctAnswer', e.target.value)}
+                            required
+                          >
+                            <option value="">Select correct answer</option>
+                            {q.options.map((option, oIndex) => (
+                              <option key={oIndex} value={String.fromCharCode(65 + oIndex)} disabled={!option.trim()}>
+                                {String.fromCharCode(65 + oIndex)}: {option || 'Enter option first'}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor={`explanation-${qIndex}`}>Explanation (Optional)</label>
+                          <textarea
+                            id={`explanation-${qIndex}`}
+                            value={q.explanation}
+                            onChange={(e) => handleQuestionChange(qIndex, 'explanation', e.target.value)}
+                            placeholder="Explain why this answer is correct..."
+                            rows="2"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="correctAnswer">Correct Answer *</label>
-                    <select
-                      id="correctAnswer"
-                      name="correctAnswer"
-                      value={quizForm.correctAnswer}
-                      onChange={handleQuizInputChange}
-                      required
-                    >
-                      <option value="">Select correct answer</option>
-                      {quizForm.options.map((option, index) => (
-                        <option key={index} value={String.fromCharCode(65 + index)} disabled={!option.trim()}>
-                          {String.fromCharCode(65 + index)}: {option || 'Enter option first'}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="explanation">Explanation (Optional)</label>
-                    <textarea
-                      id="explanation"
-                      name="explanation"
-                      value={quizForm.explanation}
-                      onChange={handleQuizInputChange}
-                      placeholder="Explain why this answer is correct..."
-                      rows="2"
-                    />
-                  </div>
-                </div>
+                <div className="form-actions-row">
+                  <button
+                    type="button"
+                    onClick={addQuestionBlock}
+                    className="add-another-btn"
+                  >
+                    ➕ Add Another Question
+                  </button>
 
-                <button type="submit" disabled={loading} className="create-btn">
-                  {loading ? 'Creating...' : '✨ Create Quiz Question'}
-                </button>
+                  <button type="submit" disabled={loading} className="create-btn">
+                    {loading ? 'Creating...' : `✨ Create ${questionsList.length} Quiz Question${questionsList.length > 1 ? 's' : ''}`}
+                  </button>
+                </div>
               </form>
             </div>
 
